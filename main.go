@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 )
 
 const (
@@ -13,8 +14,9 @@ const (
 	checkInApi       = "/growth_api/v1/check_in"
 	getLotteryConfig = "/growth_api/v1/lottery_config/get"
 	drawLottery      = "/growth_api/v1/lottery/draw"
-	cookie           = "MONITOR_WEB_ID=a176c5b8-9a88-468b-aa21-44426d11b9e9; _ga=GA1.2.1104176138.1634093821; _tea_utm_cache_2608={%22utm_source%22:%22timeline_5%22%2C%22utm_medium%22:%22banner%22%2C%22utm_campaign%22:%22xiaoce_linda_20211117%22}; passport_csrf_token_default=8eea6bc27dfccdffe8f8ae97ee992460; passport_csrf_token=8eea6bc27dfccdffe8f8ae97ee992460; sid_guard=9c3dc2094e8c091b9e506e74dc242f55%7C1637634333%7C5184000%7CSat%2C+22-Jan-2022+02%3A25%3A33+GMT; uid_tt=9e6c94dbf429fecba42b7d4250be617e; uid_tt_ss=9e6c94dbf429fecba42b7d4250be617e; sid_tt=9c3dc2094e8c091b9e506e74dc242f55; sessionid=9c3dc2094e8c091b9e506e74dc242f55; sessionid_ss=9c3dc2094e8c091b9e506e74dc242f55; sid_ucp_v1=1.0.0-KDNjNjBlZjVmMDVjMmIwNzViNTc1OWYxYTIyZTEyNjlmZTViZDk3ODgKFwjej5D-hPWXAxCdovGMBhiwFDgCQPEHGgJsZiIgOWMzZGMyMDk0ZThjMDkxYjllNTA2ZTc0ZGMyNDJmNTU; ssid_ucp_v1=1.0.0-KDNjNjBlZjVmMDVjMmIwNzViNTc1OWYxYTIyZTEyNjlmZTViZDk3ODgKFwjej5D-hPWXAxCdovGMBhiwFDgCQPEHGgJsZiIgOWMzZGMyMDk0ZThjMDkxYjllNTA2ZTc0ZGMyNDJmNTU; n_mh=u9ffqAcwOPX6awLXCM_SHqJLoECKsQDK3up-ESBCEdE; _gid=GA1.2.1998507205.1640567014"
 )
+
+var cookie string
 
 type Err struct {
 	Err_no  int
@@ -55,7 +57,6 @@ func sendRequest(method string, url string) (result string, err error) {
 	} else {
 		req, _ = http.NewRequest("POST", url, nil)
 	}
-
 	req.Header.Set("Cookie", cookie)
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -140,6 +141,11 @@ func getTodayDrawStatus() bool {
 }
 
 func main() {
+	cookie = os.Args[1]
+	if cookie == "" {
+		fmt.Println("请传入cookie")
+		return
+	}
 	checkIn()
 	draw()
 }
