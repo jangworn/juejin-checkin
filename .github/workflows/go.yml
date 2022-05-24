@@ -19,4 +19,4 @@ jobs:
         go-version: 1.13
 
     - name: Run
-      run: go mod tidy && go run main.go ${{ secrets.JUEJIN_COOKIE }}
+      run: go mod tidy && go run main.go "${{ secrets.JUEJIN_COOKIE }}"
