@@ -146,6 +146,7 @@ func main() {
 		fmt.Println("请传入cookie")
 		return
 	}
+	fmt.Println(cookie)
 	checkIn()
 	draw()
 }
