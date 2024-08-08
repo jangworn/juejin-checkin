@@ -10,4 +10,4 @@ main_scf.go  云函数运行
 
 > [go.yml](https://github.com/jangworn/juejin-checkin/blob/master/.github/workflows/go.yml) 中cron的值`0 2 * * *`表示每天02:00 UTC运行，实际测试中会有延迟北京时间上午11点多才运行
 
-active 20240709
+active 20240808
